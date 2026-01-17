@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oman Hub - Notifications</title>
+    <style>
+        /* CSS Variables - same as profile page */
+        :root {
+            --bg-page: #F9F5EC;
+            --brand: #0C6262;
+            --brand-hover: #166F6F;
+            --card-bg: #FFFFFF;
+            --text-dark: #1A1A1A;
+            --text-medium: #6B7280;
+            --text-light: #9CA3AF;
+            --border-light: #E6E1D6;
+            --teal-light: #E8F5F5;
+            --teal-header: #DFF3F2;
+            --radius: 21px;
+            --radius-sm: 8px;
+            --radius-tag: 10px;
+            --radius-btn: 16px;
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            --shadow-sm: 0 1px 6px rgba(0, 0, 0, 0.04);
+
+            /* Notification card colors - exact hex values from user */
+            --notif-teal: #AEE6E7;
+            --notif-yellow: #FFDD8C;
+            --notif-red: #FFD5D5;
+            --notif-red-stroke: #D93E3E;
+            --notif-gray: #DADADA;
+        }
+
+        /* Reset & Base */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            background-color: var(--bg-page);
+            margin: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            color: var(--text-dark);
+            min-height: 100vh;
+            line-height: 1.5;
+        }
+
+        /* ========== TOP HEADER / NAVBAR ========== */
+        .navbar {
+            background: var(--bg-page);
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo {
+            width: auto;
+            height: 40px;
+        }
+
+        .brand-logo img {
+            width: auto;
+            height: 40px;
+            object-fit: contain;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        /* Icon buttons - white circles */
+        .icon-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            padding: 0;
+        }
+
+        .icon-btn img {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+        }
+
+        .icon-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--text-medium);
+            stroke-width: 2;
+            fill: none;
+            transition: stroke 0.2s ease;
+        }
+
+        /* Hover: ONLY change icon color to #0C6262 - no glow, no black circles */
+        .icon-btn:hover svg {
+            stroke: var(--brand);
+        }
+
+        .icon-btn:hover {
+            background: var(--card-bg);
+        }
+
+        /* Navbar Profile */
+        .navbar-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .navbar-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--brand), #166F6F);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+            overflow: hidden;
+        }
+
+        .navbar-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .navbar-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .navbar-email {
+            font-size: 12px;
+            color: var(--text-medium);
+        }
+
+        /* ========== MAIN CONTAINER ========== */
+        .main-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 28px 24px;
+        }
+
+        /* ========== PAGE HEADER ROW ========== */
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .page-header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .back-btn {
+            width: auto;
+            height: auto;
+            border-radius: 50%;
+            background: transparent;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: none;
+            flex-shrink: 0;
+            padding: 8px;
+        }
+
+        .back-btn img {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+        }
+
+        .back-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--text-medium);
+            stroke-width: 2;
+            fill: none;
+            transition: stroke 0.2s ease;
+        }
+
+        .back-btn:hover svg {
+            stroke: var(--brand);
+        }
+
+        .page-title-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-dark);
+            line-height: 1.3;
+        }
+
+        .page-subtitle {
+            font-size: 14px;
+            color: var(--text-medium);
+        }
+
+        .mark-all-btn {
+            padding: 12px 20px;
+            background: var(--brand);
+            color: white;
+            border: none;
+            border-radius: var(--radius-btn);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: background 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .mark-all-btn:hover {
+            background: var(--brand-hover);
+        }
+
+        /* ========== NOTIFICATIONS CONTAINER ========== */
+        .notifications-container {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            /* NO glow, NO outline, NO border */
+        }
+
+        /* Notifications list area */
+        .notifications-list {
+            padding: 16px;
+        }
+
+        /* ========== NOTIFICATION CARD ========== */
+        .notif-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 20px;
+            padding-right: 16px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+            position: relative;
+            overflow: hidden; /* Clips the unread strip inside the card */
+        }
+
+        /* Right-side unread indicator - ONLY on unread cards */
+        /* Full height strip, inset from right edge, clipped by card overflow */
+        .notif-card[data-read="false"]::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 12px;
+            border-radius: 0 8px 8px 0; /* Rounded on right side matching card radius */
+        }
+
+        /* Strip colors - darker shade of each card background */
+        .notif-card.type-teal[data-read="false"]::after {
+            background: #0C6262; /* Dark teal - brand color */
+        }
+
+        .notif-card.type-yellow[data-read="false"]::after {
+            background: #C6980E; /* Darker yellow/gold */
+        }
+
+        .notif-card.type-red[data-read="false"]::after {
+            background: #FFB5B5; /* Darker pink */
+        }
+
+        .notif-card.type-gray[data-read="false"]::after {
+            background: #B8B8B8; /* Darker gray */
+        }
+
+        /* No indicator on read cards */
+        .notif-card[data-read="true"]::after {
+            display: none;
+        }
+
+        .notif-card:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Removed opacity/weight changes for read cards - only stripe indicates read/unread */
+
+        /* Icon */
+        .notif-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .notif-icon img {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+
+        .notif-icon svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--brand);
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .notif-icon.warning svg {
+            stroke: #DC6B6B;
+        }
+
+        .notif-icon.success svg {
+            stroke: #B89B3A;
+        }
+
+        /* Red card icons should be white */
+        .notif-card.type-red .notif-icon svg {
+            stroke: white;
+        }
+
+        /* Content */
+        .notif-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .notif-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-dark);
+            line-height: 1.4;
+        }
+
+        .notif-message {
+            font-size: 13px;
+            color: var(--text-medium);
+            line-height: 1.4;
+        }
+
+        /* Timestamp */
+        .notif-time {
+            font-size: 12px;
+            color: var(--text-light);
+            white-space: nowrap;
+        }
+
+        /* Card background colors - exact hex values */
+        .notif-card.type-teal {
+            background: var(--notif-teal);
+        }
+
+        .notif-card.type-yellow {
+            background: var(--notif-yellow);
+        }
+
+        .notif-card.type-red {
+            background: var(--notif-red);
+            border: 2px solid var(--notif-red-stroke);
+        }
+
+        /* Red card icons should match stroke color */
+        .notif-card.type-red .notif-icon svg {
+            stroke: var(--notif-red-stroke);
+        }
+
+        .notif-card.type-gray {
+            background: var(--notif-gray);
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+
+            .mark-all-btn {
+                width: 100%;
+            }
+
+            .navbar-email {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar {
+                padding: 12px 16px;
+            }
+
+            .main-container {
+                padding: 20px 16px;
+            }
+
+            .page-title {
+                font-size: 20px;
+            }
+
+            .navbar-info {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Header / Navbar -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <div class="brand-logo">
+                <img src="logowithNameNT.png" alt="Oman Hub">
+            </div>
+        </div>
+        <div class="navbar-right">
+            <button class="icon-btn notification-btn">
+                <img src="Notification Icon NT.png" alt="Notifications">
+            </button>
+            <button class="icon-btn cart-btn">
+                <img src="CART icon NT.png" alt="Cart">
+            </button>
+            <div class="navbar-profile">
+                <div class="navbar-avatar">
+                    <img src="annewithEwallpaper.png" alt="Profile" onerror="this.parentElement.textContent='KS'">
+                </div>
+                <div class="navbar-info">
+                    <span class="navbar-name">Khalsa Said</span>
+                    <span class="navbar-email">khalsasaidart@gmail.com</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="main-container">
+        <!-- Page Header Row -->
+        <div class="page-header">
+            <div class="page-header-left">
+                <button class="back-btn" onclick="history.back()">
+                    <img src="arrow-left-getting backNT-02.png" alt="Back">
+                </button>
+                <div class="page-title-group">
+                    <h1 class="page-title">Notifications List</h1>
+                    <span class="page-subtitle" id="notif-count">You have 2 notifications to go through</span>
+                </div>
+            </div>
+            <button class="mark-all-btn" onclick="markAllAsRead()">Mark all as read</button>
+        </div>
+
+        <!-- Notifications Container -->
+        <div class="notifications-container">
+            <!-- Notifications List -->
+            <div class="notifications-list" id="notifications-list">
+                <!-- Teal - Booking Pending - UNREAD -->
+                <div class="notif-card type-teal" data-read="false" onclick="markAsRead(this)">
+                    <div class="notif-icon">
+                        <img src="yourbooking request notification NT icon.png" alt="Booking Pending">
+                    </div>
+                    <div class="notif-content">
+                        <span class="notif-title">Your booking request is pending</span>
+                        <span class="notif-message">We've received your booking for the Desert Adventure package. The operator is reviewing your request.</span>
+                    </div>
+                    <span class="notif-time">5 Minutes ago</span>
+                </div>
+
+                <!-- Yellow - Payment Successful - Check Icon - UNREAD -->
+                <div class="notif-card type-yellow" data-read="false" onclick="markAsRead(this)">
+                    <div class="notif-icon success">
+                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                    </div>
+                    <div class="notif-content">
+                        <span class="notif-title">Payment successful</span>
+                        <span class="notif-message">We've received your payment of 250 OMR for Desert Adventure. Your booking is now confirmed!</span>
+                    </div>
+                    <span class="notif-time">Yesterday</span>
+                </div>
+
+                <!-- Red - Limited-time Offer - READ -->
+                <div class="notif-card type-red" data-read="true" onclick="markAsRead(this)">
+                    <div class="notif-icon">
+                        <img src="LimitedOfferNT icon.png" alt="Limited Offer">
+                    </div>
+                    <div class="notif-content">
+                        <span class="notif-title">Limited-time offer</span>
+                        <span class="notif-message">Book any package this week and get 10% off.</span>
+                    </div>
+                    <span class="notif-time">2 Months ago</span>
+                </div>
+
+                <!-- Teal - Booking Approved - READ -->
+                <div class="notif-card type-teal" data-read="true" onclick="markAsRead(this)">
+                    <div class="notif-icon">
+                        <img src="BookingApproved NT icon.png" alt="Booking Approved">
+                    </div>
+                    <div class="notif-content">
+                        <span class="notif-title">Booking approved</span>
+                        <span class="notif-message">Your booking for the Desert Adventure package was declined. Reason: Dates unavailable. Try another date.</span>
+                    </div>
+                    <span class="notif-time">1 Hours ago</span>
+                </div>
+
+                <!-- Yellow - Payment Failed - READ -->
+                <div class="notif-card type-yellow" data-read="true" onclick="markAsRead(this)">
+                    <div class="notif-icon">
+                        <img src="Payment Failed NT icon .png" alt="Payment Failed">
+                    </div>
+                    <div class="notif-content">
+                        <span class="notif-title">Payment failed</span>
+                        <span class="notif-message">Your payment attempt for Desert Adventure did not go through. Please retry.</span>
+                    </div>
+                    <span class="notif-time">Thursday</span>
+                </div>
+
+                <!-- Gray - Schedule Update - READ -->
+                <div class="notif-card type-gray" data-read="true" onclick="markAsRead(this)">
+                    <div class="notif-icon">
+                        <img src="Scheduleupdate NT icon.png" alt="Schedule Update">
+                    </div>
+                    <div class="notif-content">
+                        <span class="notif-title">Schedule update</span>
+                        <span class="notif-message">The meeting point for Desert Adventure has changed to Downtown Bus Station. Check details in your booking.</span>
+                    </div>
+                    <span class="notif-time">1 Month ago</span>
+                </div>
+
+                <!-- Teal - Booking Rejected - READ -->
+                <div class="notif-card type-teal" data-read="true" onclick="markAsRead(this)">
+                    <div class="notif-icon">
+                        <img src="Booking Rejected NT icon.png" alt="Booking Rejected">
+                    </div>
+                    <div class="notif-content">
+                        <span class="notif-title">Booking rejected</span>
+                        <span class="notif-message">Your Desert Adventure package has been approved! Complete your payment to secure your spot.</span>
+                    </div>
+                    <span class="notif-time">Yesterday</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Get initial unread count
+        function getUnreadCount() {
+            const cards = document.querySelectorAll('.notif-card[data-read="false"]');
+            return cards.length;
+        }
+
+        // Update the subtitle text
+        function updateCountText() {
+            const count = getUnreadCount();
+            const subtitle = document.getElementById('notif-count');
+            if (count === 0) {
+                subtitle.textContent = 'All notifications read';
+            } else {
+                subtitle.textContent = `You have ${count} notification${count !== 1 ? 's' : ''} to go through`;
+            }
+        }
+
+        // Mark individual notification as read
+        function markAsRead(card) {
+            if (card.dataset.read === "false") {
+                card.dataset.read = "true";
+                updateCountText();
+            }
+        }
+
+        // Mark all as read
+        function markAllAsRead() {
+            const unreadCards = document.querySelectorAll('.notif-card[data-read="false"]');
+            unreadCards.forEach(card => {
+                card.dataset.read = "true";
+            });
+            updateCountText();
+        }
+    </script>
+</body>
+</html>
